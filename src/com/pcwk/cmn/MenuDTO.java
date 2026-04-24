@@ -4,11 +4,11 @@
  * 작성자: user <br>
  * 생성일: 2026-04-23 <br>
  */
-package kiosk.menu.cmn;
+package com.pcwk.cmn;
 
 /**
  * Data Transfer Object, 데이터 전송 객체
  */
-public class MenuDto {
+public class MenuDTO {
 
 }
