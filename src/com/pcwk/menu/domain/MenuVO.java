@@ -22,7 +22,7 @@ public class MenuVO extends MenuDTO {
 	
 	public String toCsv() {
 		//회원ID,이름,비밀번호,이메일,가입일,권한
-				return String.format("%-3s,%-10s,%5s", foodId
+				return String.format("%s,%s,%s", foodId
 						, food
 						, price);
 	}
@@ -35,6 +35,7 @@ public class MenuVO extends MenuDTO {
 	}
 
 	/**
+	 * @param choice 
 	 * @return the foodId
 	 */
 	public String getFoodId() {

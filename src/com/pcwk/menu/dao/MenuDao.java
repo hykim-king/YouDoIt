@@ -1,11 +1,13 @@
 package com.pcwk.menu.dao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.text.Format;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.pcwk.cmn.MenuDTO;
@@ -27,6 +29,30 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 		getMenuDataRead(MenuDao.MENU_LOG_DATA);
 
 	}
+	
+	public int writeMenuData(String path) {
+		int count = 0;
+		String divStr = ",";//데이터 구분자
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter(path))){
+			//hearder생성 1회
+			String header = "메뉴ID,메뉴,가격";
+			bw.write(header);
+			bw.newLine();
+			log.debug("header: {}", header);
+			for(MenuVO vo:menus) {
+				count++;
+				log.debug("{}, {}", count, vo.toCsv());
+				bw.write(vo.toCsv());
+				bw.newLine();				
+			}			
+			
+		} catch (IOException e) {
+			log.debug("IOException: {}", e);			
+		}
+		
+		return count;
+	}
+	
 
 	/**
 	 *메뉴 읽기 
@@ -50,8 +76,7 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 				String[] strArray = line.split(",");
 				if(strArray.length == 3) {
 					MenuVO menuLog = new MenuVO(strArray[0],strArray[1],strArray[2]);
-					
-					
+										
 					log.debug("{}", menuLog.toCsv());
 					this.menus.add(menuLog); ///////
 				
@@ -100,14 +125,19 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 	@Override
 	public int doUpdate(MenuVO param) {
 		int flag = 0;
-		//기존 데이터 존재 확인
-		//존재하면: 삭제, 변경
-		if(isExistsMenu(param)==true) {
-			flag = 2;
-			return flag;
-		}
+		System.out.println("doUpdate");
 		
-		flag = this.menus.add(param)==true?1:0;
+		Iterator<MenuVO> iter = menus.iterator();
+		
+		while(iter.hasNext()) {
+			MenuVO vo = iter.next();
+			if(vo.getFoodId().equals(param.getFoodId())) {
+				vo.setPrice(param.getPrice());
+				flag = 1;
+				return flag;
+			} 
+		}		
+		
 		log.debug("등록여부: {}",flag);
 		
 		return flag;
@@ -116,8 +146,28 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 
 	@Override
 	public int doDelete(MenuVO param) {
-		// TODO Auto-generated method stub
-		return 0;
+		int flag = 0;
+		
+		if(isExistsMenu(param) == false) {
+			flag = 2;			
+			return flag;
+		}
+		
+		//삭제
+		Iterator<MenuVO> iter = menus.iterator();
+		while(iter.hasNext()) {
+			MenuVO vo = iter.next();
+			
+			if(vo.getFoodId().equals(param.getFoodId())) {
+				//삭제
+				System.out.println("왔니");
+				iter.remove();
+				flag = 1;
+				break;
+			}		
+		
+		}		
+		return flag;
 	}
 
 	@Override
@@ -130,6 +180,12 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 	public List<MenuVO> doRetrieve(MenuDTO param) {
 		// TODO Auto-generated method stub
 		return null;
-	}	
+	}
 
+	/**
+	 * 
+	 */
+
+		
+	
 }
