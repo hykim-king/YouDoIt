@@ -30,6 +30,14 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 
 	}
 	
+	/**
+	 * 신우
+	 * @param path
+	 */
+//	public MenuDao(String path) {
+//		readMenuData(path);
+//	}
+	
 	public int writeMenuData(String path) {
 		int count = 0;
 		String divStr = ",";//데이터 구분자
@@ -75,7 +83,7 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 				count++;
 				String[] strArray = line.split(",");
 				if(strArray.length == 3) {
-					MenuVO menuLog = new MenuVO(strArray[0],strArray[1],strArray[2]);
+					MenuVO menuLog = new MenuVO(strArray[0],strArray[1],Integer.parseInt(strArray[2]));
 										
 					log.debug("{}", menuLog.toCsv());
 					this.menus.add(menuLog); ///////
@@ -183,8 +191,49 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 	}
 
 	/**
-	 * 
+	 * 신우 메서드 겹침
 	 */
+//	public int writeMenuData(String path) {
+//		int count = 0;
+//
+//		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+//			bw.write("메뉴ID,메뉴,가격");
+//			bw.newLine();
+//			for (int i = 0; i < menus.size(); i++) {
+//				bw.write(menus.get(i).toCsv());
+//				bw.newLine();
+//				count++;
+//			}
+//
+//		} catch (IOException e) {
+//
+//			System.out.println("[오류] 파일 쓰기 실패: " + e.getMessage());
+//		}
+//		return count;
+//	}
+	
+	public List<MenuVO> getMenuList() {
+		return menus;
+	}
+	
+	public MenuVO findById(String foodId) {
+		for (int i = 0; i < menus.size(); i++) {
+			if (menus.get(i).getFoodId().equals(foodId)) {
+				return menus.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public boolean updatePrice(String foodId, int newPrice) {
+		for (int i = 0; i < menus.size(); i++) {
+			if (menus.get(i).getFoodId().equals(foodId)) {
+				menus.get(i).setPrice(newPrice);
+				return true;
+			}
+		}
+		return false;
+	}
 
 		
 	

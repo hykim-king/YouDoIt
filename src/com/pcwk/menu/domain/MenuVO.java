@@ -6,7 +6,8 @@ public class MenuVO extends MenuDTO {
 	
 	private String foodId; //메뉴ID
 	private String food;   //메뉴명
-	private String price;  //가격
+	private String name;
+	private int price;  //가격
 	
 	//생성자
 	public MenuVO() {
@@ -27,7 +28,7 @@ public class MenuVO extends MenuDTO {
 						, price);
 	}
 
-	public MenuVO(String foodId, String food, String price) {
+	public MenuVO(String foodId, String food, int price) {
 		super();
 		this.foodId = foodId;
 		this.food = food;
@@ -55,6 +56,14 @@ public class MenuVO extends MenuDTO {
 	public String getFood() {
 		return food;
 	}
+	
+	public String getName() {
+		return food;
+	}
+	
+	public String setName() {
+		return food;
+	}
 
 	/**
 	 * @param food the food to set
@@ -66,14 +75,14 @@ public class MenuVO extends MenuDTO {
 	/**
 	 * @return the price
 	 */
-	public String getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 

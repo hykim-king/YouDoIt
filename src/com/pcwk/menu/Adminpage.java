@@ -9,6 +9,7 @@ package com.pcwk.menu;
 import java.util.Scanner;
 
 import com.pcwk.cmn.MenuDTO;
+import com.pcwk.hamburger.Kiosk;
 import com.pcwk.menu.dao.MenuDao;
 import com.pcwk.menu.domain.MenuVO;
 
@@ -23,13 +24,42 @@ public class Adminpage {
 	static Scanner sc = new Scanner(System.in);
 	//String id = sc.nextLine();		
 	static String choice = null;
-	static String priceChange = null;
-	private static final int admin = 9999;
+	static int priceChange = 0;
+
 
 	public Adminpage() {
 		dao = new MenuDao();
 		menuVO01 = new MenuVO();
 		dto = new MenuDTO();		
+	}
+	
+	public void startAdminMode() {
+		System.out.println("┌─────────────────────────────────────────┐");
+		System.out.println("                [관리자 모드]                    ");
+		System.out.println("└─────────────────────────────────────────┘");
+		System.out.println(" 1. 가격수정 | 2. 메뉴삭제 | 3. 메뉴추가 | 4. 종료");
+		System.out.print("선택 >> ");
+
+		String menu = sc.nextLine(); 
+
+		switch(menu) {
+        case "1": 
+        	doUpdate(); 
+        	break; 
+        case "2": 
+        	doDelete(); 
+        	break;
+        case "3": 
+        	doSave();   
+        	break;
+        case "4": 
+        	Kiosk.kioskShow();
+        	break;
+        default: 
+        	System.out.println("잘못된 선택입니다.");
+        }
+		
+		writeMenuData();
 	}
 	
 	public void writeMenuData() {
@@ -58,7 +88,7 @@ public class Adminpage {
 	    }
 		
 		System.out.print("변경할 가격 >");
-		priceChange = sc.nextLine();
+		priceChange = sc.nextInt();
 		menuVO01.setFoodId(choice);
 		menuVO01.setPrice(priceChange);
 		int flag = dao.doUpdate(menuVO01);	
@@ -74,7 +104,7 @@ public class Adminpage {
 	}
 	
 	public void doSave() {
-		menuVO01 = new MenuVO("07","빅맥","8000");
+		menuVO01 = new MenuVO("07","빅맥",8000);
 		int flag = dao.doSave(menuVO01);
 	}
 
