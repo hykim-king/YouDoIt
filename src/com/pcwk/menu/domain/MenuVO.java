@@ -15,14 +15,14 @@ public class MenuVO extends MenuDTO {
 	}
 	
 	public String toPrint() {
-		//회원ID,이름,비밀번호,이메일,가입일,권한
+		//음식ID,음식명,가격
 		return String.format("%-3s,%-15s,%-7s", foodId
 				, food
 				, price);
 	}
 	
 	public String toCsv() {
-		//회원ID,이름,비밀번호,이메일,가입일,권한
+		//음식ID,음식명,가격
 				return String.format("%s,%s,%s", foodId
 						, food
 						, price);

@@ -11,7 +11,7 @@ public class PrintReciept {
 	// paymentType : 카드 / 현금
 	public static void print(Cart cart, String diningType, String paymentType) {
 		List<CartItem> itemList = cart.getItemList();
-
+		System.out.println("  ════════════════════════════════════════════════");
 		System.out.println("  ════════════════════════════════════════════════");
 		System.out.println("                   [ 영  수  증 ]");
 		System.out.println("  ────────────────────────────────────────────────");

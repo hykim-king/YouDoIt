@@ -18,7 +18,7 @@ import com.pcwk.menu.domain.MenuVO;
 public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 
 	// 메뉴 파일
-	public static final String MENU_LOG_DATA = "C:\\Users\\user\\git\\YouDoIt\\data\\menu.csv";
+	public static final String MENU_LOG_DATA = "D:\\CJFS_20260324\\01_JAVA1\\WORKSPACE\\project\\src\\menu.csv";
 
 	// 메뉴 정보
 	private ArrayList<MenuVO> menus = new ArrayList<MenuVO>();
@@ -29,15 +29,7 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 		getMenuDataRead(MenuDao.MENU_LOG_DATA);
 
 	}
-	
-	/**
-	 * 신우
-	 * @param path
-	 */
-//	public MenuDao(String path) {
-//		readMenuData(path);
-//	}
-	
+
 	public int writeMenuData(String path) {
 		int count = 0;
 		String divStr = ",";//데이터 구분자
@@ -77,7 +69,7 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 			while ((line = br.readLine()) != null) {
 				if (i == 1) {
 					i++;
-					log.debug("{}", line);
+					//log.debug("{}", line);
 					continue;
 				}
 				count++;
@@ -85,8 +77,8 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 				if(strArray.length == 3) {
 					MenuVO menuLog = new MenuVO(strArray[0],strArray[1],Integer.parseInt(strArray[2]));
 										
-					log.debug("{}", menuLog.toCsv());
-					this.menus.add(menuLog); ///////
+					//log.debug("{}", menuLog.toCsv());
+					this.menus.add(menuLog); 
 				
 				}
 				
@@ -100,6 +92,16 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 			log.debug("Exception: {}", e);
 		}
 		return count;
+	}
+
+	/**
+	 * 관리자 모드 들어가면 최초 1회 메뉴 출력 
+	 */
+	public void logMenus() {
+		log.debug("=== 메뉴 목록 ===");
+		for (MenuVO vo: menus) {
+			log.debug("{}", vo.toCsv());
+		}
 	}
 	
 	public boolean isExistsMenu(MenuVO param) {
@@ -133,7 +135,6 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 	@Override
 	public int doUpdate(MenuVO param) {
 		int flag = 0;
-		System.out.println("doUpdate");
 		
 		Iterator<MenuVO> iter = menus.iterator();
 		
@@ -145,11 +146,9 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 				return flag;
 			} 
 		}		
-		
 		log.debug("등록여부: {}",flag);
 		
 		return flag;
-	
 	}
 
 	@Override
@@ -168,7 +167,6 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 			
 			if(vo.getFoodId().equals(param.getFoodId())) {
 				//삭제
-				System.out.println("왔니");
 				iter.remove();
 				flag = 1;
 				break;
@@ -178,40 +176,6 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 		return flag;
 	}
 
-	@Override
-	public MenuVO doSelectOne(MenuVO parem) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<MenuVO> doRetrieve(MenuDTO param) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 신우 메서드 겹침
-	 */
-//	public int writeMenuData(String path) {
-//		int count = 0;
-//
-//		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-//			bw.write("메뉴ID,메뉴,가격");
-//			bw.newLine();
-//			for (int i = 0; i < menus.size(); i++) {
-//				bw.write(menus.get(i).toCsv());
-//				bw.newLine();
-//				count++;
-//			}
-//
-//		} catch (IOException e) {
-//
-//			System.out.println("[오류] 파일 쓰기 실패: " + e.getMessage());
-//		}
-//		return count;
-//	}
-	
 	public List<MenuVO> getMenuList() {
 		return menus;
 	}
@@ -235,6 +199,17 @@ public class MenuDao implements WorkDiv<MenuVO>, PLogger {
 		return false;
 	}
 
+	@Override
+	public MenuVO doSelectOne(MenuVO parem) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<MenuVO> doRetrieve(MenuDTO param) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 		
 	
 }

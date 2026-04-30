@@ -4,7 +4,11 @@ import java.util.Scanner;
 
 public class PaymentWindow {
 
-	Scanner sc = new Scanner(System.in);
+	private Scanner sc;
+
+	public PaymentWindow(Scanner sc) {
+		this.sc = sc;
+	}
 
 	public String getPaymentType() {
 		while (true) {

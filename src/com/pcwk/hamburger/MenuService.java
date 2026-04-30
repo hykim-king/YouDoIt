@@ -8,7 +8,7 @@ import com.pcwk.menu.domain.MenuVO;
 
 public class MenuService {
 
-	private final MenuDao menuDao;
+	private MenuDao menuDao;
 
 	public MenuService(MenuDao menuDao) {
 		this.menuDao = menuDao;
@@ -16,7 +16,6 @@ public class MenuService {
 
 	public List<MenuVO> getAllMenus() {
 		List<MenuVO> list = menuDao.getMenuList();
-		// System.out.printf("전체 메뉴 조회: %d건", list.size());
 		return list;
 	}
 
@@ -29,7 +28,7 @@ public class MenuService {
 	}
 
 	public void saveMenuData() {
-		menuDao.writeMenuData(MenuDao.MENU_LOG_DATA); //MENU_LOG_DATA
+		menuDao.writeMenuData(MenuDao.MENU_LOG_DATA); 
 		System.out.println("메뉴 데이터 저장 완료");
 	}
 }

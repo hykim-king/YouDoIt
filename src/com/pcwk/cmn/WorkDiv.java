@@ -38,6 +38,4 @@ public interface WorkDiv<T> {
 	 * @return List<DTO>
 	 */
 	List<T> doRetrieve(MenuDTO param);
-
-
 }

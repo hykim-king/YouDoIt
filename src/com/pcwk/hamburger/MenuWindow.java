@@ -9,7 +9,11 @@ import com.pcwk.menu.domain.MenuVO;
 
 public class MenuWindow implements PLogger {
 
-	Scanner sc = new Scanner(System.in);
+	private Scanner sc;
+
+	public MenuWindow(Scanner sc) {
+		this.sc = sc;
+	}
 
 	public void show(List<MenuVO> menuList) {
 
@@ -33,17 +37,18 @@ public class MenuWindow implements PLogger {
 		}
 		System.out.println("  │└──────────────────────────────────────────────────────────────────┘│");
 		System.out.println("  └────────────────────────────────────────────────────────────────────┘");
-		System.out.println("  ※ 세트 선택 시 +2,000원   [C] 장바구니   [P] 결제");
+		System.out.println("  ※ 세트 선택 시 +2,000원   [C] 장바구니   [D] 장바구니 삭제   [P] 결제");
 	}
 
+	
 	// 사용자 입력
 	public String getMenuChoice(List<MenuVO> menuList) {
 		while (true) {
-			System.out.print("번호 입력 (1~5 또는 C/P) > ");
+			System.out.print("메뉴 번호 입력 또는 (C/P/D) > ");
 			String input = sc.nextLine().trim();
 			String upper = input.toUpperCase();
 
-			if (upper.equals("C") || upper.equals("P")) {
+			if (upper.equals("C") || upper.equals("P") || upper.equals("D")) {
 				return upper;
 			}
 
@@ -53,7 +58,7 @@ public class MenuWindow implements PLogger {
 					return menuList.get(num - 1).getFoodId();
 				}
 			} catch (NumberFormatException e) {
-				log.debug("NumberFormatException {}",e);
+				//log.debug("NumberFormatException {}",e);
 			}
 
 			System.out.println("1~" + menuList.size() + " 또는 C/P를 입력하세요.");
@@ -63,7 +68,7 @@ public class MenuWindow implements PLogger {
 	// 단품 : false, 세트 : true 선택
 	public boolean getSetOrSingleChoice() {
 		while (true) {
-			System.out.print("  단품(1) / 세트(2, +2,000원) > ");
+			System.out.print("  단품(1) / 세트(2) +2,000원) > ");
 			String input = sc.nextLine().trim();
 			if (input.equals("1")) {
 				return false;
@@ -93,6 +98,7 @@ public class MenuWindow implements PLogger {
 
 	// 매장식사/포장
 	public String getDiningType() {
+		System.out.println("주문 방식을 선택해 주세요.");
 		while (true) {
 			System.out.print("매장식사(1) / 포장(2) > ");
 			String input = sc.nextLine().trim();
@@ -104,5 +110,28 @@ public class MenuWindow implements PLogger {
 			}
 			System.out.println("1 또는 2를 입력하세요.");
 		}
+	}
+	
+	// 삭제 항목 
+	public CartItem getRemoveChoice(List<CartItem> itemList) {
+	    System.out.print("  삭제할 항목 번호를 입력하세요: ");
+	    String input = sc.nextLine().trim();
+	    try {
+	        int index = Integer.parseInt(input) - 1;
+	        if (index >= 0 && index < itemList.size()) {
+	            return itemList.get(index);
+	        }
+	    } catch (NumberFormatException e) {}
+	    System.out.println("  잘못된 입력입니다.");
+	    return null;
+	}
+	
+	public void waitForEnter() {
+		System.out.println("[돌아가기 ENTER]");
+	    sc.nextLine();
+	}
+	public void waitForEnterReturn() {
+		System.out.println("[종료하기 ENTER]");
+	    sc.nextLine();
 	}
 }
